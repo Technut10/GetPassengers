@@ -1,30 +1,41 @@
 package example.getpassengers
 
+import android.app.Activity
 import android.os.Bundle
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
-
 class GetPassengers : AppCompatActivity() {
     var flag = false
     var idCount = 0
-    var passList = MutableList(10){
+    private val textFirst: EditText
+        get()=findViewById(R.id.first_name)
+    private val textLast: EditText
+        get()=findViewById(R.id.last_name)
+    private val textPhone: EditText
+        get()=findViewById(R.id.phone_number)
+    private val textPut: TextView
+        get()=findViewById(R.id.accum_list)
 
-    }
+
+    var passList = mutableListOf<Passenger>()
+
+
 
     val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
     {
             activityResult ->
         val data = activityResult.data
-        val fName =data?.getStringExtra("first_name")
-        val lName = data?.getStringExtra("last_name") ?: ""
-        val phoneNumber = data?.getStringExtra("phone_number") ?: ""
-        enterPassenger(Passenger(fName.toString(), lName,  phoneNumber))
+        val fName =data?.getStringExtra("$textFirst") ?: ""
+        val lname = data?.getStringExtra("$textLast") ?: ""
+        val phoneNumber = data?.getStringExtra("$textPhone") ?: ""
+        enterPassenger(fName, lname, phoneNumber)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,19 +45,34 @@ class GetPassengers : AppCompatActivity() {
 
     fun toFirst(v:View)
     {
-        var backIntent = Intent(this, MainActivity::class.java)
-        startActivity(backIntent)
+        startForResult.launch(Intent(this, MainActivity::class.java))
     }
-    fun enterPassenger(p: Passenger){
-        flag=!flag
 
-        flag = !flag
-        val textView = TextView(this)
-        textView.text = p.toString()
-        textView.setId(idCount++)
-        if(flag) textView.setBackgroundColor(Color.rgb(255, 255, 100))
-        else textView.setBackgroundColor(Color.rgb(100, 255, 100))
-        textView.textSize = 14F
-        textView.setTextColor(Color.BLUE)
+    fun backToMain(v:View){
+        var firstName = textFirst.text.toString()
+        var lastName = textLast.text.toString()
+        var phoneNumber =textPhone.text.toString()
+        enterPassenger(firstName, lastName, phoneNumber)
+        var text = findViewById<TextView>(R.id.accum_list)
+        text.setText( passList.toString())
     }
+
+
+    fun enterPassenger(fname: String, lname: String, phoneNumber:String){
+
+      Intent().let{
+          dataIntent ->
+          dataIntent.putExtra("COUNT",passList.size.toString())
+          dataIntent.putExtra("first_name", fname)
+          dataIntent.putExtra("last_name", lname)
+          dataIntent.putExtra("phone_number", phoneNumber)
+          setResult(Activity.RESULT_OK, dataIntent)
+          passList.add(Passenger(fname, lname, phoneNumber))
+          var text = findViewById<TextView>(R.id.accum_list)
+          text.setText( passList.toString())
+          finish()
+      }
+
+    }
+
 }

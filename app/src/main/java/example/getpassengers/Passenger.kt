@@ -17,7 +17,7 @@ open class Passenger(var fName:String,var lName:String, var phone:String) {
     }
 
     override fun toString(): String {
-        val fullName = "<<" + this.fName+""+ this.lName+""+this.phone+">>\n"
+        val fullName = "<<" + this.fName+" "+ this.lName+" "+this.phone+">>\n"
         
         return fullName
     }

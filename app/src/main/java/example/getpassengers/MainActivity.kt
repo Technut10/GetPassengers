@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     {
             activityResult ->
         val data = activityResult.data
+        val count = ((data?.getStringExtra("COUNT") ?: "")).toInt()
         val fName =data?.getStringExtra("first_name") ?: ""
         val lName = data?.getStringExtra("last_name") ?: ""
         val phoneNumber = data?.getStringExtra("phone_number") ?: ""
