@@ -2,11 +2,11 @@
     <string name="app_name">GetPassengers</string>
     <string name="top_label">PASSENGER LIST APP</string>
     <string name="get_list_button">GET PASSENGER LIST</string>
-    <string name="returned_list">Returned Passenger List:</string>
-    <string name="top_label_second">Enter One Passenger</string>
+    <string name="returned_list">Returned Passenger List:\n</string>
+    <string name="header_text">Enter One Passenger</string>
     <string name="return_list_button">RETURN LIST</string>
     <string name="add_passenger">ADD PASSENGER</string>
-    <string name="accumulated_list">ACCUMULATING PASSENGER LIST\n----------------</string>
+    <string name="accumulated_list">ACCUMULATING PASSENGER LIST"\n"----------------"\n"</string>
     <string name="first_name">Enter first name</string>
     <string name="last_name">Enter Last Name</string>
     <string name="phone_number">enter phone number</string>

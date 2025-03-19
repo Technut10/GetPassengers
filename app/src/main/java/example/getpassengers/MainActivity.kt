@@ -1,3 +1,8 @@
+/**
+ *  Get Passengers - An app to populate a list of passengers in one screen and return it to another.
+ * @author Anthony Putman 3/18/25
+ * @version 1.0.0
+ */
 package example.getpassengers
 
 import android.content.Intent
@@ -28,7 +33,14 @@ class MainActivity : AppCompatActivity() {
         val lName = data?.getStringExtra("last_name") ?: ""
         val phoneNumber = data?.getStringExtra("phone_number") ?: ""
 
-    }
+        for(i in 1..count){
+
+          val passenger =  data?.getStringExtra(("PASS"+i) ?:"")
+          listText.append("$passenger")
+
+        }
+
+            }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +50,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
     }
     fun getList(v: View){
         startForResult.launch(Intent(this, GetPassengers::class.java))
+        listText.setText(R.string.returned_list)
     }
-
 
 }

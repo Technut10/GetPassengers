@@ -28,50 +28,59 @@ class GetPassengers : AppCompatActivity() {
 
 
 
-    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-    {
-            activityResult ->
-        val data = activityResult.data
-        val fName =data?.getStringExtra("$textFirst") ?: ""
-        val lname = data?.getStringExtra("$textLast") ?: ""
-        val phoneNumber = data?.getStringExtra("$textPhone") ?: ""
-        enterPassenger(fName, lname, phoneNumber)
-    }
+//    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+//    {
+//            activityResult ->
+//        val data = activityResult.data
+//        val fName =data?.getStringExtra("$textFirst") ?: ""
+//        val lname = data?.getStringExtra("$textLast") ?: ""
+//        val phoneNumber = data?.getStringExtra("$textPhone") ?: ""
+//        enterPassenger(textPut)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.get_passengers)
     }
 
-    fun toFirst(v:View)
-    {
-        startForResult.launch(Intent(this, MainActivity::class.java))
-    }
 
     fun backToMain(v:View){
         var firstName = textFirst.text.toString()
         var lastName = textLast.text.toString()
         var phoneNumber =textPhone.text.toString()
-        enterPassenger(firstName, lastName, phoneNumber)
-        var text = findViewById<TextView>(R.id.accum_list)
-        text.setText( passList.toString())
+
+        Intent(this, MainActivity::class.java).let{
+            dataIntent ->
+            dataIntent.putExtra("COUNT",passList.size.toString())
+            for (i in 0 until passList.size) {
+                dataIntent.putExtra("PASS${i + 1}", passList[i].toString())
+            }
+            dataIntent.putExtra("first_name", firstName)
+            dataIntent.putExtra("last_name", lastName)
+            dataIntent.putExtra("phone_number", phoneNumber)
+            setResult(Activity.RESULT_OK, dataIntent)
+            //startForResult.launch(Intent(this, MainActivity::class.java))
+        }
+        finish()
+
     }
 
 
-    fun enterPassenger(fname: String, lname: String, phoneNumber:String){
+    fun enterPassenger(v:View){
 
-      Intent().let{
-          dataIntent ->
-          dataIntent.putExtra("COUNT",passList.size.toString())
-          dataIntent.putExtra("first_name", fname)
-          dataIntent.putExtra("last_name", lname)
-          dataIntent.putExtra("phone_number", phoneNumber)
-          setResult(Activity.RESULT_OK, dataIntent)
-          passList.add(Passenger(fname, lname, phoneNumber))
-          var text = findViewById<TextView>(R.id.accum_list)
-          text.setText( passList.toString())
-          finish()
-      }
+        var firstName = textFirst.text.toString()
+        var lastName = textLast.text.toString()
+        var phoneNumber =textPhone.text.toString()
+
+        var newPass = Passenger(firstName, lastName, phoneNumber)
+        passList.add(newPass)
+
+            textPut.append(newPass.toString())
+            //passList.add(Passenger(fname,lname,phoneNumber))
+
+            textFirst.setText("")
+            textLast.setText("")
+            textPhone.setText("")
 
     }
 
