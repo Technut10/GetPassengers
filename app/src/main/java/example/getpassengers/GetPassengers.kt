@@ -8,10 +8,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
-class GetPassengers : AppCompatActivity() {
+class GetPassengers : AppCompatActivity (){
     var flag = false
     var idCount = 0
     private val textFirst: EditText

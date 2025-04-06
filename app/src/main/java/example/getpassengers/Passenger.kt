@@ -1,7 +1,6 @@
 package example.getpassengers
 
 
-
 open class Passenger(var fName:String,var lName:String, var phone:String) {
     
      var fullName:String=""
